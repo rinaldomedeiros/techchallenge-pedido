@@ -5,5 +5,6 @@ enum class PaymentStatus(
 ) {
     APPROVED("APROVADO"),
     REPROVED("REPROVADO"),
-    CANCELLED("CANCELADO")
+    CANCELLED("CANCELADO"),
+    PENDING("PENDENTE")
 }

@@ -4,6 +4,7 @@ import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -11,13 +12,15 @@ import java.time.LocalDateTime
 @Document(collection = "orders")
 data class Orders(
         @Id
-        val id : Long?,
-        val orderNumber : Int,
+        val id : String? = null,
+
+        @Indexed(unique = true)
+        val orderNumber : Int? = null,
         @CreatedDate
-        val orderDate : LocalDateTime?,
-        val totalValue : BigDecimal,
-        val orderStatus : OrderStatus,
+        val orderDate : LocalDateTime? = null,
+        val totalValue : BigDecimal? = null,
+        val orderStatus : OrderStatus? = null,
         //Cliente cliente;
         val items: List<ItemOrder>,
-        val paymentStatus : PaymentStatus
+        val paymentStatus : PaymentStatus? = null
 )

@@ -6,10 +6,10 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 data class OrderResponse(
-    val id: Long,
-    val numberOrder : Int,
-    val orderDate : LocalDateTime,
-    val orderValue : BigDecimal,
-    val orderStatus : OrderStatus,
+    val id: String ?,
+    val orderNumber : Int?,
+    val orderDate : LocalDateTime?,
+    val orderValue : BigDecimal?,
+    val orderStatus : OrderStatus?,
     val items : List<ItemOrder>
 )
