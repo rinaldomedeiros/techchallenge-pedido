@@ -22,5 +22,6 @@ data class Orders(
         val totalValue : BigDecimal? = null,
         val orderStatus : OrderStatus? = null,
         val items: List<ItemOrder>,
-        val paymentStatus : PaymentStatus? = null
+        val paymentStatus : PaymentStatus? = null,
+        val customer: Customer? = null
 )

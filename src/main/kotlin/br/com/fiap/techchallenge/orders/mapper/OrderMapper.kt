@@ -10,7 +10,8 @@ class OrderMapper {
 
     fun toOrder(orderRequest: OrderRequest) : Orders{
         return Orders(
-                items = orderRequest.items
+                items = orderRequest.items,
+                customer = orderRequest.customer
         )
     }
 
@@ -21,7 +22,8 @@ class OrderMapper {
                     items = orders.items,
                     orderDate = orders.orderDate,
                     orderStatus = orders.orderStatus,
-                    orderValue =orders.totalValue
+                    orderValue = orders.totalValue,
+                    customer = orders.customer
 
             )
 
