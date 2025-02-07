@@ -1,9 +1,9 @@
-package br.com.fiap.techchallenge.orders.domain
-
+import br.com.fiap.techchallenge.orders.domain.Product
 import java.math.BigDecimal
 
 data class ItemOrder(
         val quantity: Int,
-        val pricetotal: BigDecimal,
-        val product: Product
+        val unitPrice: BigDecimal,
+        val product: Product,
+        val totalPrice: BigDecimal = unitPrice.multiply(quantity.toBigDecimal())
 )

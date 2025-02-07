@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.orders.domain
 
+import ItemOrder
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
 import org.springframework.data.annotation.CreatedDate
@@ -20,7 +21,6 @@ data class Orders(
         val orderDate : LocalDateTime? = null,
         val totalValue : BigDecimal? = null,
         val orderStatus : OrderStatus? = null,
-        //Cliente cliente;
         val items: List<ItemOrder>,
         val paymentStatus : PaymentStatus? = null
 )

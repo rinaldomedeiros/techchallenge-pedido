@@ -1,6 +1,6 @@
 package br.com.fiap.techchallenge.orders.domain.response
 
-import br.com.fiap.techchallenge.orders.domain.ItemOrder
+import ItemOrder
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import java.math.BigDecimal
 import java.time.LocalDateTime

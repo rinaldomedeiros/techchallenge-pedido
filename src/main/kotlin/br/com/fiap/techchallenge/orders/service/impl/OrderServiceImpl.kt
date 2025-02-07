@@ -16,9 +16,9 @@ class OrderServiceImpl(
         val orderSave = orders.copy(
                 orderStatus = OrderStatus.IN_PREPARATION,
                 paymentStatus = PaymentStatus.PENDING,
-                orderNumber = orders.orderNumber ?: sequenceGeneratorServiceImpl.generationSequence("orderSequence").toInt()
-
-        )
+                orderNumber = orders.orderNumber ?:
+                sequenceGeneratorServiceImpl.generationSequence("orderSequence").toInt()
+                )
         return orderRepository.save(orderSave)
     }
 }
