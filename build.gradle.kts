@@ -37,6 +37,10 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.amqp:spring-rabbit-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
+	testImplementation("io.kotest:kotest-assertions-core:5.5.5")
+	testImplementation("io.mockk:mockk:1.13.5") // Versão mais recente em 2024
+
 }
 
 kotlin {

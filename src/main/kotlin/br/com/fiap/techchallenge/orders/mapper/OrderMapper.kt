@@ -8,23 +8,22 @@ import org.springframework.stereotype.Component
 @Component
 class OrderMapper {
 
-    fun toOrder(orderRequest: OrderRequest) : Orders{
+    fun toOrder(orderRequest: OrderRequest): Orders {
         return Orders(
-                items = orderRequest.items,
-                customer = orderRequest.customer
+            items = orderRequest.items,
+            customer = orderRequest.customer
         )
     }
 
     fun toOrderResponse(orders: Orders) =
-            OrderResponse(
-                    id = orders.id,
-                    orderNumber = orders.orderNumber,
-                    items = orders.items,
-                    orderDate = orders.orderDate,
-                    orderStatus = orders.orderStatus,
-                    orderValue = orders.totalValue,
-                    customer = orders.customer
+        OrderResponse(
+            id = orders.id,
+            orderNumber = orders.orderNumber,
+            items = orders.items,
+            orderDate = orders.orderDate,
+            orderStatus = orders.orderStatus,
+            orderValue = orders.totalValue,
+            customer = orders.customer
 
-            )
-
+        )
 }
