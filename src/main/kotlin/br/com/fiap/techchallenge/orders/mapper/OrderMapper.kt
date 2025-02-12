@@ -2,6 +2,7 @@ package br.com.fiap.techchallenge.orders.mapper
 
 import br.com.fiap.techchallenge.orders.domain.Orders
 import br.com.fiap.techchallenge.orders.domain.request.OrderRequest
+import br.com.fiap.techchallenge.orders.domain.request.OrderUpdateRequest
 import br.com.fiap.techchallenge.orders.domain.response.OrderResponse
 import org.springframework.stereotype.Component
 
@@ -23,7 +24,14 @@ class OrderMapper {
             orderDate = orders.orderDate,
             orderStatus = orders.orderStatus,
             orderValue = orders.totalValue,
-            customer = orders.customer
+            customer = orders.customer,
+            paymentStatus = orders.paymentStatus
 
         )
+
+    fun toOrderUpdate(orderUpdateRequest: OrderUpdateRequest, orders: Orders):Orders{
+        return orders.copy(
+            paymentStatus = orderUpdateRequest.paymentStatus
+        )
+    }
 }

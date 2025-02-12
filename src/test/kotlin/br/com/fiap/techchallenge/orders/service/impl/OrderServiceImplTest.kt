@@ -6,7 +6,9 @@ import br.com.fiap.techchallenge.orders.repository.OrderRepository
 import br.com.fiap.techchallenge.orders.service.impl.OrderServiceImpl
 import br.com.fiap.techchallenge.orders.service.impl.SequenceGeneratorServiceImpl
 import io.kotest.matchers.shouldBe
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
