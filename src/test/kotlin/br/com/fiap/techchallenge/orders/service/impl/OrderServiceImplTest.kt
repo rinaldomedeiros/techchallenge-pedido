@@ -32,7 +32,7 @@ class OrderServiceImplTest {
             orderNumber = null, // Simula um novo pedido sem número gerado
             items = listOf(),
             totalValue = BigDecimal.ZERO,
-            orderStatus = OrderStatus.IN_PREPARATION,
+            orderStatus = OrderStatus.PENDING_PAYMENT,
             paymentStatus = PaymentStatus.PENDING,
             customer = Customer(
                 name = "Wilson",
@@ -42,7 +42,7 @@ class OrderServiceImplTest {
 
         val generatedOrderNumber = 1001
         val expectedOrder = orders.copy(
-            orderStatus = OrderStatus.IN_PREPARATION,
+            orderStatus = OrderStatus.PENDING_PAYMENT,
             paymentStatus = PaymentStatus.PENDING,
             orderNumber = generatedOrderNumber,
             totalValue = BigDecimal.ZERO
@@ -56,7 +56,7 @@ class OrderServiceImplTest {
 
         // Assert
         result.orderNumber shouldBe generatedOrderNumber
-        result.orderStatus shouldBe OrderStatus.IN_PREPARATION
+        result.orderStatus shouldBe OrderStatus.PENDING_PAYMENT
         result.paymentStatus shouldBe PaymentStatus.PENDING
         result.totalValue shouldBe BigDecimal.ZERO
         verify { sequenceGeneratorServiceImpl.generationSequence("orderSequence") }
@@ -81,7 +81,7 @@ class OrderServiceImplTest {
         )
 
         val expectedOrder = orders.copy(
-            orderStatus = OrderStatus.IN_PREPARATION,
+            orderStatus = OrderStatus.PENDING_PAYMENT,
             paymentStatus = PaymentStatus.PENDING,
             totalValue = BigDecimal.ZERO
         )
@@ -93,7 +93,7 @@ class OrderServiceImplTest {
 
         // Assert
         result.orderNumber shouldBe existingOrderNumber
-        result.orderStatus shouldBe OrderStatus.IN_PREPARATION
+        result.orderStatus shouldBe OrderStatus.PENDING_PAYMENT
         result.paymentStatus shouldBe PaymentStatus.PENDING
         result.totalValue shouldBe BigDecimal.ZERO
         verify(exactly = 0) { sequenceGeneratorServiceImpl.generationSequence(any()) }
