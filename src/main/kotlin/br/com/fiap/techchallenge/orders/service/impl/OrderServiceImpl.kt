@@ -5,6 +5,7 @@ import br.com.fiap.techchallenge.orders.domain.Orders
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
 import br.com.fiap.techchallenge.orders.exceptions.OrdersExceptions.OrderNotFound
+import br.com.fiap.techchallenge.orders.mapper.OrderMapper
 import br.com.fiap.techchallenge.orders.repository.OrderRepository
 import br.com.fiap.techchallenge.orders.service.OrderService
 import org.springframework.stereotype.Service
@@ -13,7 +14,9 @@ import java.math.BigDecimal
 @Service
 class OrderServiceImpl(
     private val orderRepository: OrderRepository,
-    private val sequenceGeneratorServiceImpl: SequenceGeneratorServiceImpl
+    private val sequenceGeneratorServiceImpl: SequenceGeneratorServiceImpl,
+    private val producerImpl: ProducerImpl,
+    private val orderMapper: OrderMapper
 ) : OrderService {
     override fun createOrder(orders: Orders): Orders {
         val orderSave = orders.copy(
@@ -23,7 +26,9 @@ class OrderServiceImpl(
                 .toInt(),
             totalValue = sumValueTotal(orders.items)
         )
-        return orderRepository.save(orderSave)
+        val orderSend = orderRepository.save(orderSave)
+        producerImpl.sendOrder(orderMapper.toOrderMessage(orderSend))
+        return orderSend
     }
 
     override fun findByOrderNumber(orderNumber: Int): Orders {

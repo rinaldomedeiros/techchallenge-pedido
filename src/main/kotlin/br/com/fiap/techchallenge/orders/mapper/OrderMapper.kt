@@ -1,10 +1,12 @@
 package br.com.fiap.techchallenge.orders.mapper
 
 import br.com.fiap.techchallenge.orders.domain.Orders
+import br.com.fiap.techchallenge.orders.domain.message.OrderMessage
 import br.com.fiap.techchallenge.orders.domain.request.OrderRequest
 import br.com.fiap.techchallenge.orders.domain.request.OrderUpdateRequest
 import br.com.fiap.techchallenge.orders.domain.response.OrderResponse
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class OrderMapper {
@@ -34,4 +36,10 @@ class OrderMapper {
             paymentStatus = orderUpdateRequest.paymentStatus
         )
     }
+
+    fun toOrderMessage(orders: Orders) =
+        OrderMessage(
+            orderNumber = orders.orderNumber!!,
+            totalValue = orders.totalValue!!.toDouble()
+        )
 }
