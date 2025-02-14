@@ -7,5 +7,7 @@ enum class OrderStatus(
     RECEIVED("RECEBIDO", "Pedido recebido"),
     IN_PREPARATION("EM PREPARAÇÃO", "Pedido em preparação"),
     READY("PRONTO", "Pedido está pronto"),
-    FINISHED("FINALIZADO", "O pedido foi retirado pelo cliente")
+    FINISHED("FINALIZADO", "O pedido foi retirado pelo cliente"),
+    PENDING_PAYMENT("PAGAMENTO PENDENTE", "O pedido está com o pagamento pendente"),
+    CANCELED("CANCELADO", "O pedido foi cancelado")
 }

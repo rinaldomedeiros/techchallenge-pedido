@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
@@ -37,6 +38,10 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.amqp:spring-rabbit-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
+	testImplementation("io.kotest:kotest-assertions-core:5.5.5")
+	testImplementation("io.mockk:mockk:1.13.5") // Versão mais recente em 2024
+
 }
 
 kotlin {
