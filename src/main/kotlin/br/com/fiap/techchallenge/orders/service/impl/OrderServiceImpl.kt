@@ -1,6 +1,6 @@
 package br.com.fiap.techchallenge.orders.service.impl
 
-import ItemOrder
+import br.com.fiap.techchallenge.orders.domain.ItemOrder
 import br.com.fiap.techchallenge.orders.domain.Orders
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
@@ -36,8 +36,8 @@ class OrderServiceImpl(
             .orElseThrow { OrderNotFound("Order not found") }
     }
 
-    override fun updateOrder(order: Orders): Orders {
-        val orderPaymentStatus = validateStatus(order)
+    override fun updateOrder(orders: Orders): Orders {
+        val orderPaymentStatus = validateStatus(orders)
         return orderRepository.save(orderPaymentStatus)
     }
 

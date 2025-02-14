@@ -1,6 +1,5 @@
 package br.com.fiap.techchallenge.orders.domain
 
-import ItemOrder
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
 import com.fasterxml.jackson.annotation.JsonFormat
@@ -19,7 +18,6 @@ data class Orders(
         @Indexed(unique = true)
         val orderNumber : Int? = null,
         @CreatedDate
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         val orderDate : LocalDateTime? = null,
         val totalValue : BigDecimal? = null,
         val orderStatus : OrderStatus? = null,

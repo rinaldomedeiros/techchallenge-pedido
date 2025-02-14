@@ -1,6 +1,6 @@
 package br.com.fiap.techchallenge.orders.domain.response
 
-import ItemOrder
+import br.com.fiap.techchallenge.orders.domain.ItemOrder
 import br.com.fiap.techchallenge.orders.domain.Customer
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
