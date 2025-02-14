@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.orders.service.impl
 
+import br.com.fiap.techchallenge.orders.config.JacksonConfig
 import br.com.fiap.techchallenge.orders.domain.message.OrderMessage
 import br.com.fiap.techchallenge.orders.config.RabbitMQConfig
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service
 class ProducerImpl(
     private val rabbitTemplate: RabbitTemplate,
     private val logger: Logger = org.slf4j.LoggerFactory.getLogger(ProducerImpl::class.java),
-    private val rabbitMQConfig: RabbitMQConfig
+    private val jacksonConfig: JacksonConfig
 ) {
 
     fun sendOrder(order: Any)  {
@@ -22,7 +23,7 @@ class ProducerImpl(
     }
 
     fun sendOrderConfirmed(order: Any) {
-        val jsonMessage = rabbitMQConfig.objectMapper().writeValueAsString(order)
+        val jsonMessage = jacksonConfig.objectMapper().writeValueAsString(order)
         rabbitTemplate.convertAndSend(RabbitMQConfig.CONFIRMED_ORDER_EXCHANGE, RabbitMQConfig.CONFIRMED_ORDER_ROUTING_KEY, jsonMessage)
         logger.info("Order confirmed sent to RabbitMQ: $order")
     }

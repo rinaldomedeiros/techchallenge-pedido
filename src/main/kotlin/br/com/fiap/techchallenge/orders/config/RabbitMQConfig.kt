@@ -1,7 +1,5 @@
 package br.com.fiap.techchallenge.orders.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import org.springframework.amqp.core.*
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitAdmin
@@ -20,8 +18,11 @@ class RabbitMQConfig {
     fun orderRequestedExchange(): TopicExchange = TopicExchange(ORDER_REQUESTED_EXCHANGE)
 
     @Bean
-    fun bindingPaidOrder(orderPaidQueue: Queue, orderRequestedExchange: TopicExchange): Binding =
-        BindingBuilder.bind(orderPaidQueue).to(orderRequestedExchange).with(ORDER_REQUESTED_ROUTING_KEY)
+    fun orderRequestedQueue(): Queue = QueueBuilder.durable(ORDER_REQUESTED_QUEUE).build()
+
+    @Bean
+    fun bindingPaidOrder(orderRequestedQueue: Queue, orderRequestedExchange: TopicExchange): Binding =
+        BindingBuilder.bind(orderRequestedQueue).to(orderRequestedExchange).with(ORDER_REQUESTED_ROUTING_KEY)
 
     @Bean
     fun updatedOrderQueue(): Queue = QueueBuilder.durable(UPDATED_ORDER_QUEUE).build()
@@ -41,11 +42,6 @@ class RabbitMQConfig {
     fun jsonMessageConverter(): Jackson2JsonMessageConverter = Jackson2JsonMessageConverter()
 
     @Bean
-    fun objectMapper(): ObjectMapper {
-        return ObjectMapper().registerModule(JavaTimeModule())
-    }
-
-    @Bean
     fun rabbitTemplate(connectionFactory: ConnectionFactory): RabbitTemplate =
         RabbitTemplate(connectionFactory).apply {
             messageConverter = jsonMessageConverter()
@@ -57,7 +53,8 @@ class RabbitMQConfig {
 
     companion object {
         // Fila e exchange para pedidos pagos
-        val ORDER_REQUESTED_EXCHANGE: String = "order-requested-exchange"
+        const val ORDER_REQUESTED_QUEUE: String = "ORDER_REQUESTED_QUEUE"
+        const val ORDER_REQUESTED_EXCHANGE: String = "order-requested-exchange"
         const val ORDER_REQUESTED_ROUTING_KEY: String = "order.requested"
 
         // Fila para pedidos pagos

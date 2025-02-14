@@ -1,7 +1,7 @@
 package br.com.fiap.techchallenge.orders.Fixture
 
 
-import ItemOrder
+import br.com.fiap.techchallenge.orders.domain.ItemOrder
 import java.math.BigDecimal
 
 object ItemOrderFixture {

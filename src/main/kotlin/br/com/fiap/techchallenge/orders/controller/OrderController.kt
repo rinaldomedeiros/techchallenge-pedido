@@ -26,6 +26,7 @@ class OrderController(
 
     @PostMapping
     fun create(@RequestBody @Validated orders: OrderRequest): OrderResponse {
+        println("Recebido: $orders")
         return orderMapper.toOrderResponse(orderService.createOrder(orderMapper.toOrder(orders)))
     }
 
