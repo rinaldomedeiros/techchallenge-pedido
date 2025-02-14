@@ -8,4 +8,6 @@ interface OrderService {
     fun createOrder(orders: Orders): Orders
     fun findByOrderNumber(orderNumber: Int): Orders
     fun updateOrder(orders: Orders): Orders
+    fun updatePaymentStatus(orderNumber: Int, status: String): Orders
+    fun updateOrderStatus(orderNumber: Int, status: String): Orders
 }

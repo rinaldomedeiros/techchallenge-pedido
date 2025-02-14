@@ -41,6 +41,25 @@ class OrderServiceImpl(
         return orderRepository.save(orderPaymentStatus)
     }
 
+
+    override fun updatePaymentStatus(orderNumber: Int, status: String): Orders {
+        val order = findByOrderNumber(orderNumber)
+        val updateOrderStatus = when (PaymentStatus.valueOf(status)) {
+            PaymentStatus.APPROVED -> updateOrderStatusApproved(order)
+            PaymentStatus.REPROVED -> updateOrderStatusReproved(order)
+            PaymentStatus.CANCELED -> updateOrderStatusCanceled(order)
+            else -> order
+        }
+        return orderRepository.save(updateOrderStatus)
+    }
+
+    override fun updateOrderStatus(orderNumber: Int, status: String): Orders {
+        val order = findByOrderNumber(orderNumber)
+        val orderUpdate = order.copy(orderStatus = OrderStatus.valueOf(status))
+        return orderRepository.save(orderUpdate)
+    }
+
+
     private fun sumValueTotal(orderItems: List<ItemOrder>): BigDecimal {
         return orderItems.stream().map(ItemOrder::totalPrice).reduce(BigDecimal.ZERO, BigDecimal::add)
     }
@@ -51,5 +70,19 @@ class OrderServiceImpl(
             PaymentStatus.APPROVED -> orders.copy(orderStatus = OrderStatus.IN_PREPARATION)
             else -> orders
         }
+    }
+
+    private fun updateOrderStatusApproved(order: Orders): Orders {
+        val orderSend = order.copy(orderStatus = OrderStatus.IN_PREPARATION, paymentStatus = PaymentStatus.APPROVED)
+        producerImpl.sendOrderConfirmed(orderMapper.toOrderConfirmedMessage(orderSend))
+        return orderSend
+    }
+
+    private fun updateOrderStatusReproved(order: Orders): Orders {
+        return order.copy(orderStatus = OrderStatus.PENDING_PAYMENT, paymentStatus = PaymentStatus.REPROVED)
+    }
+
+    private fun updateOrderStatusCanceled(order: Orders): Orders {
+        return order.copy(orderStatus = OrderStatus.CANCELED, paymentStatus = PaymentStatus.CANCELED)
     }
 }

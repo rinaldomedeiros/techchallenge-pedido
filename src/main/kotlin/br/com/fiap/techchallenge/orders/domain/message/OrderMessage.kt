@@ -8,4 +8,4 @@ data class OrderMessage(
     val orderNumber: Int,
     val totalValue: Double,
 
-) : Serializable
+    ) : Serializable
