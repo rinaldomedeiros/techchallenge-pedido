@@ -8,15 +8,19 @@ import br.com.fiap.techchallenge.orders.exceptions.OrdersExceptions.OrderNotFoun
 import br.com.fiap.techchallenge.orders.mapper.OrderMapper
 import br.com.fiap.techchallenge.orders.repository.OrderRepository
 import br.com.fiap.techchallenge.orders.service.OrderService
+import org.slf4j.Logger
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.time.Instant
 
 @Service
 class OrderServiceImpl(
     private val orderRepository: OrderRepository,
     private val sequenceGeneratorServiceImpl: SequenceGeneratorServiceImpl,
     private val producerImpl: ProducerImpl,
-    private val orderMapper: OrderMapper
+    private val orderMapper: OrderMapper,
+    private val logger: Logger = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl::class.java)
 ) : OrderService {
     override fun createOrder(orders: Orders): Orders {
         val orderSave = orders.copy(
@@ -57,6 +61,19 @@ class OrderServiceImpl(
         val order = findByOrderNumber(orderNumber)
         val orderUpdate = order.copy(orderStatus = OrderStatus.valueOf(status))
         return orderRepository.save(orderUpdate)
+    }
+
+    @Scheduled(fixedRate = 60000)
+    override fun canceledOrderExpired() {
+        val orders = orderRepository.findByOrderStatusAndOrderDateBefore(
+            OrderStatus.PENDING_PAYMENT.toString(),
+            Instant.now().minusSeconds(300)
+        )
+        orders.forEach {
+            val orderCanceled = it.copy(orderStatus = OrderStatus.CANCELED, paymentStatus = PaymentStatus.CANCELED)
+            orderRepository.save(orderCanceled)
+            logger.info("Order canceled by expiration: $orderCanceled")
+        }
     }
 
 
