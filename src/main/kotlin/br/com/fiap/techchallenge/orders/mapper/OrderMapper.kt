@@ -39,13 +39,13 @@ class OrderMapper {
 
     fun toOrderMessage(orders: Orders) =
         OrderMessage(
-            orderNumber = orders.orderNumber!!,
-            totalValue = orders.totalValue!!.toDouble()
+            orderId = orders.orderNumber!!,
+            orderValue = orders.totalValue!!
         )
 
     fun toOrderConfirmedMessage(orders: Orders) =
         OrderConfirmedMessage(
-            orderNumber = orders.orderNumber!!,
+            orderId = orders.orderNumber!!,
             status = orders.orderStatus!!,
             details = orders
         )

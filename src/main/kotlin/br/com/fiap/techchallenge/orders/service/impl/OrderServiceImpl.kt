@@ -35,8 +35,8 @@ class OrderServiceImpl(
         return orderSend
     }
 
-    override fun findByOrderNumber(orderNumber: Int): Orders {
-        return orderRepository.findByOrderNumber(orderNumber)
+    override fun findByOrderNumber(orderId: Int): Orders {
+        return orderRepository.findByOrderNumber(orderId)
             .orElseThrow { OrderNotFound("Order not found") }
     }
 
@@ -46,8 +46,8 @@ class OrderServiceImpl(
     }
 
 
-    override fun updatePaymentStatus(orderNumber: Int, status: String): Orders {
-        val order = findByOrderNumber(orderNumber)
+    override fun updatePaymentStatus(orderId: Int, status: String): Orders {
+        val order = findByOrderNumber(orderId)
         val updateOrderStatus = when (PaymentStatus.valueOf(status)) {
             PaymentStatus.APPROVED -> updateOrderStatusApproved(order)
             PaymentStatus.REPROVED -> updateOrderStatusReproved(order)
@@ -57,8 +57,8 @@ class OrderServiceImpl(
         return orderRepository.save(updateOrderStatus)
     }
 
-    override fun updateOrderStatus(orderNumber: Int, status: String): Orders {
-        val order = findByOrderNumber(orderNumber)
+    override fun updateOrderStatus(orderId: Int, status: String): Orders {
+        val order = findByOrderNumber(orderId)
         val orderUpdate = order.copy(orderStatus = OrderStatus.valueOf(status))
         return orderRepository.save(orderUpdate)
     }
@@ -84,13 +84,13 @@ class OrderServiceImpl(
     private fun validateStatus(orders: Orders): Orders {
         return when (orders.paymentStatus) {
             PaymentStatus.REPROVED -> orders.copy(orderStatus = OrderStatus.CANCELED)
-            PaymentStatus.APPROVED -> orders.copy(orderStatus = OrderStatus.IN_PREPARATION)
+            PaymentStatus.APPROVED -> orders.copy(orderStatus = OrderStatus.RECEIVED)
             else -> orders
         }
     }
 
     private fun updateOrderStatusApproved(order: Orders): Orders {
-        val orderSend = order.copy(orderStatus = OrderStatus.IN_PREPARATION, paymentStatus = PaymentStatus.APPROVED)
+        val orderSend = order.copy(orderStatus = OrderStatus.RECEIVED, paymentStatus = PaymentStatus.APPROVED)
         producerImpl.sendOrderConfirmed(orderMapper.toOrderConfirmedMessage(orderSend))
         return orderSend
     }

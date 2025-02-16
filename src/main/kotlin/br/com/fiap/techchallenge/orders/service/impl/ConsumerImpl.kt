@@ -18,12 +18,12 @@ class ConsumerImpl(
     @RabbitListener(queues = [RabbitMQConfig.ORDER_PAID_QUEUE])
     fun consumerUpdatedPaymentStatus(message : OrderUpdatePaymentStatus) {
         logger.info("Received message: $message")
-        orderService.updatePaymentStatus(message.orderNumber, message.status.toString())
+        orderService.updatePaymentStatus(message.orderId, message.paymentStatus.toString())
     }
 
     @RabbitListener(queues = [RabbitMQConfig.UPDATED_ORDER_QUEUE])
     fun consumerUpdatedOrderStatus(message : OrderStatusMessage) {
         logger.info("Received message: $message")
-        orderService.updateOrderStatus(message.orderNumber, message.orderStatus.toString())
+        orderService.updateOrderStatus(message.orderId, message.orderStatus.toString())
     }
 }

@@ -8,6 +8,6 @@ import java.util.Optional
 
 @Repository
 interface OrderRepository : MongoRepository<Orders, Long> {
-    fun findByOrderNumber(orderNumber: Int): Optional<Orders>
+    fun findByOrderNumber(orderId: Int): Optional<Orders>
     fun findByOrderStatusAndOrderDateBefore(orderStatus: String, orderDate: Instant): List<Orders>
 }

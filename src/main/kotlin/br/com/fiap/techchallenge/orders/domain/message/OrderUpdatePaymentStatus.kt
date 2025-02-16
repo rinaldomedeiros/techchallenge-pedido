@@ -4,6 +4,6 @@ import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
 import java.io.Serializable
 
 data class OrderUpdatePaymentStatus(
-    val orderNumber: Int,
-    val status: PaymentStatus,
+    val orderId: Int,
+    val paymentStatus: PaymentStatus,
 ) : Serializable
