@@ -15,16 +15,23 @@ class ProducerImpl(
     private val jacksonConfig: JacksonConfig
 ) {
 
-    fun sendOrder(order: Any)  {
-        val jsonMessage = jacksonObjectMapper().writeValueAsString(order)
-        rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_REQUESTED_EXCHANGE, RabbitMQConfig.ORDER_REQUESTED_ROUTING_KEY, jsonMessage)
+    fun sendOrder(order: Any) {
+        rabbitTemplate.convertAndSend(
+            RabbitMQConfig.ORDER_REQUESTED_EXCHANGE,
+            RabbitMQConfig.ORDER_REQUESTED_ROUTING_KEY,
+            order
+        )
         logger.info("Order sent to RabbitMQ: $order")
 
     }
 
     fun sendOrderConfirmed(order: Any) {
-        val jsonMessage = jacksonConfig.objectMapper().writeValueAsString(order)
-        rabbitTemplate.convertAndSend(RabbitMQConfig.CONFIRMED_ORDER_EXCHANGE, RabbitMQConfig.CONFIRMED_ORDER_ROUTING_KEY, jsonMessage)
+
+        rabbitTemplate.convertAndSend(
+            RabbitMQConfig.CONFIRMED_ORDER_EXCHANGE,
+            RabbitMQConfig.CONFIRMED_ORDER_ROUTING_KEY,
+            order
+        )
         logger.info("Order confirmed sent to RabbitMQ: $order")
     }
 }
