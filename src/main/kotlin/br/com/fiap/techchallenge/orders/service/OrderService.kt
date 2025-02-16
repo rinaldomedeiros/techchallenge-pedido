@@ -11,4 +11,8 @@ interface OrderService {
     fun updatePaymentStatus(orderId: Int, status: String): Orders
     fun updateOrderStatus(orderId: Int, status: String): Orders
     fun canceledOrderExpired()
+    fun finishedOrder()
+    fun getAll(): List<Orders>
+    fun getFollowUp(): List<Orders>
+
 }

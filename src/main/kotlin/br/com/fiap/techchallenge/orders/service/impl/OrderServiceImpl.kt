@@ -76,6 +76,27 @@ class OrderServiceImpl(
         }
     }
 
+    @Scheduled(fixedRate = 60000)
+    override fun finishedOrder() {
+        val orders = orderRepository.findByOrderStatusAndOrderDateBefore(
+            OrderStatus.READY.toString(),
+            Instant.now().minusSeconds(300)
+        )
+        orders.forEach {
+            val orderFinished = it.copy(orderStatus = OrderStatus.FINISHED)
+            orderRepository.save(orderFinished)
+        }
+
+    }
+
+    override fun getAll(): List<Orders> {
+        return orderRepository.findAll()
+    }
+
+    override fun getFollowUp(): List<Orders> {
+        return orderRepository.findAllOrderSByDateCreation() ?: emptyList()
+    }
+
 
     private fun sumValueTotal(orderItems: List<ItemOrder>): BigDecimal {
         return orderItems.stream().map(ItemOrder::totalPrice).reduce(BigDecimal.ZERO, BigDecimal::add)
