@@ -4,7 +4,7 @@ plugins {
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
-    id("jacoco") 
+    id("jacoco")
 }
 
 group = "br.com.fiap.techchallenge"
@@ -63,11 +63,24 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport) 
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                
+                exclude(
+                    "**/config/**",
+                    "**/domain/**",
+                    "**/mapper/**",
+                    "**/OrdersApplication.*"
+                )
+            }
+        })
+    )
     reports {
         xml.required.set(true)
         csv.required.set(false)
