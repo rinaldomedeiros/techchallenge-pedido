@@ -102,7 +102,7 @@ class OrderServiceImpl(
         return orderItems.stream().map(ItemOrder::totalPrice).reduce(BigDecimal.ZERO, BigDecimal::add)
     }
 
-    private fun validateStatus(orders: Orders): Orders {
+     fun validateStatus(orders: Orders): Orders {
         return when (orders.paymentStatus) {
             PaymentStatus.REPROVED -> orders.copy(orderStatus = OrderStatus.CANCELED)
             PaymentStatus.APPROVED -> orders.copy(orderStatus = OrderStatus.RECEIVED)

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class ConsumerImpl(
-    private val rabbitTemplate: RabbitTemplate,
     private val logger: Logger = org.slf4j.LoggerFactory.getLogger(ConsumerImpl::class.java),
     private val orderService : OrderService
 ) {

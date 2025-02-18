@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service
 class ProducerImpl(
     private val rabbitTemplate: RabbitTemplate,
     private val logger: Logger = org.slf4j.LoggerFactory.getLogger(ProducerImpl::class.java),
-    private val jacksonConfig: JacksonConfig
 ) {
 
     fun sendOrder(order: Any) {
