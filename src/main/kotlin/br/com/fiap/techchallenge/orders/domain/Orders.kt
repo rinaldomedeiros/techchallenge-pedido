@@ -2,7 +2,6 @@ package br.com.fiap.techchallenge.orders.domain
 
 import br.com.fiap.techchallenge.orders.domain.enums.OrderStatus
 import br.com.fiap.techchallenge.orders.domain.enums.PaymentStatus
-import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed

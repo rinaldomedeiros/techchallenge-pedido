@@ -1,9 +1,6 @@
 package br.com.fiap.techchallenge.orders.service.impl
 
-import br.com.fiap.techchallenge.orders.config.JacksonConfig
-import br.com.fiap.techchallenge.orders.domain.message.OrderMessage
 import br.com.fiap.techchallenge.orders.config.RabbitMQConfig
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.Logger
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Service

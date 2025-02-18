@@ -6,7 +6,6 @@ import br.com.fiap.techchallenge.orders.domain.message.OrderUpdatePaymentStatus
 import br.com.fiap.techchallenge.orders.service.OrderService
 import org.slf4j.Logger
 import org.springframework.amqp.rabbit.annotation.RabbitListener
-import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Service
 
 @Service

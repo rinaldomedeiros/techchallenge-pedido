@@ -34,7 +34,7 @@ class OrderMapper {
 
         )
 
-    fun toOrderUpdate(orderUpdateRequest: OrderUpdateRequest, orders: Orders):Orders{
+    fun toOrderUpdate(orderUpdateRequest: OrderUpdateRequest, orders: Orders): Orders {
         return orders.copy(
             paymentStatus = orderUpdateRequest.paymentStatus
         )
@@ -52,29 +52,32 @@ class OrderMapper {
             status = orders.orderStatus!!,
             details = orders
         )
+
     fun toListOrderResponse(orders: List<Orders>) = orders.map { toOrderResponse(it) }
 
 
     fun toGroupedOrders(orders: List<Orders>): OrderGroupedResponse {
         val orderFollowUps = orders.map { toFollowUp(it) }
 
-        val readyOrders =
+        val readyOrders: List<OrderFollowUp> =
             orderFollowUps
                 .stream()
-                .filter { it.orderStatus == OrderStatus.READY
+                .filter {
+                    it.orderStatus == OrderStatus.READY
                 }
-                .sorted(Comparator.comparing (OrderFollowUp ::orderDate)).toList()
+                .sorted(Comparator.comparing(OrderFollowUp::orderDate)).toList()
 
-        val preparingOrders =
+        val preparingOrders: List<OrderFollowUp> =
             orderFollowUps
                 .stream()
-                .filter{ it.orderStatus == (OrderStatus.IN_PREPARATION)}
-                .sorted(Comparator.comparing(OrderFollowUp ::orderDate)).toList()
+                .filter { it.orderStatus == (OrderStatus.IN_PREPARATION) }
+                .sorted(Comparator.comparing(OrderFollowUp::orderDate)).toList()
 
-        val receivedOrders =
+        val receivedOrders: List<OrderFollowUp> =
             orderFollowUps
                 .stream()
-                .filter { it.orderStatus == OrderStatus.RECEIVED
+                .filter {
+                    it.orderStatus == OrderStatus.RECEIVED
                 }
                 .sorted(Comparator.comparing(OrderFollowUp::orderDate)).toList()
 

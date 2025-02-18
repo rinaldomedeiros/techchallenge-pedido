@@ -1,7 +1,5 @@
 package br.com.fiap.techchallenge.orders
 
-import br.com.fiap.techchallenge.orders.domain.request.OrderRequest
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.amqp.rabbit.annotation.EnableRabbit
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

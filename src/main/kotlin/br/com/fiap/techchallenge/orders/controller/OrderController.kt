@@ -1,6 +1,5 @@
 package br.com.fiap.techchallenge.orders.controller
 
-import br.com.fiap.techchallenge.orders.domain.Orders
 import br.com.fiap.techchallenge.orders.domain.request.OrderRequest
 import br.com.fiap.techchallenge.orders.domain.request.OrderUpdateRequest
 import br.com.fiap.techchallenge.orders.domain.response.OrderGroupedResponse
@@ -8,24 +7,17 @@ import br.com.fiap.techchallenge.orders.domain.response.OrderResponse
 import br.com.fiap.techchallenge.orders.exceptions.OrdersExceptions.OrderNotFound
 import br.com.fiap.techchallenge.orders.mapper.OrderMapper
 import br.com.fiap.techchallenge.orders.service.OrderService
-import org.springframework.http.HttpStatusCode
+import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/orders")
 class OrderController(
     private val orderService: OrderService,
     private val orderMapper: OrderMapper
 ) {
-
     @PostMapping
     fun create(@RequestBody @Validated orders: OrderRequest): OrderResponse {
         println("Recebido: $orders")
@@ -33,7 +25,10 @@ class OrderController(
     }
 
     @GetMapping("/{orderNumber}")
-    fun getOrder(@PathVariable orderNumber: Int): ResponseEntity<OrderResponse> {
+    fun getOrder(
+        @Parameter(description = "Número do pedido", example = "123")
+        @PathVariable orderNumber: Int
+    ): ResponseEntity<OrderResponse> {
         return try {
             val order = orderService.findByOrderNumber(orderNumber)
             ResponseEntity.status(201).body(orderMapper.toOrderResponse(order))
@@ -44,6 +39,7 @@ class OrderController(
 
     @PutMapping("/{orderNumber}")
     fun updateOrder(
+        @Parameter(description = "Número do pedido", example = "123")
         @PathVariable orderNumber: Int,
         @RequestBody @Validated orderUpdateRequest: OrderUpdateRequest
     ): ResponseEntity<OrderResponse> {
