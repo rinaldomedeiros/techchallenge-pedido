@@ -27,3 +27,18 @@ jobs:
 
       - name: Build com Gradle
         run: ./gradlew build --no-daemon
+
+      - name: Executar Testes com Cobertura
+        run: ./gradlew test jacocoTestReport --no-daemon
+
+      - name: Exibir Cobertura Total
+        run: |
+          echo "Extraindo cobertura de testes..."
+          # Extrai a linha referente à cobertura de linhas do relatório XML
+          total_line=$(grep "<counter type=\"LINE\"" build/reports/jacoco/test/jacocoTestReport.xml)
+          missed=$(echo "$total_line" | sed -n 's/.*missed="\([0-9]*\)".*/\1/p')
+          covered=$(echo "$total_line" | sed -n 's/.*covered="\([0-9]*\)".*/\1/p')
+          total=$((missed + covered))
+          # Calcula a porcentagem de cobertura
+          coverage=$(awk "BEGIN {printf \"%.2f\", ($covered/$total)*100}")
+          echo "Cobertura total de linhas: $coverage%"
